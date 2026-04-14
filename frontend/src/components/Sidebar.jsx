@@ -1,4 +1,4 @@
-import { Shield, Home, FileText, TrendingUp, Settings, LogOut, Sun, Moon } from "lucide-react";
+import { Shield, Home, FileText, TrendingUp, Package, Settings, LogOut, Sun, Moon } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ export default function Sidebar() {
     { name: "Dashboard",  icon: Home,       path: "/dashboard" },
     { name: "Ledger",     icon: FileText,   path: "/ledger" },
     { name: "Forecast",   icon: TrendingUp, path: "/forecast" },
+    { name: "Inventory",  icon: Package,    path: "/inventory" },
     { name: "Settings",   icon: Settings,   path: "#" },
   ];
 

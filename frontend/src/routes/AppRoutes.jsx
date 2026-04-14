@@ -5,6 +5,7 @@ import VerifyEmailPage from "../pages/VerifyEmailPage";
 import DashboardPage from "../pages/DashboardPage";
 import LedgerPage from "../pages/LedgerPage";
 import ForecastPage from "../pages/ForecastPage";
+import InventoryPage from "../pages/InventoryPage";
 
 export default function AppRoutes() {
   return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/ledger" element={<LedgerPage />} />
         <Route path="/forecast" element={<ForecastPage />} />
+        <Route path="/inventory" element={<InventoryPage />} />
 
         {/* Fallback */}
         <Route path="*" element={<LoginPage />} />

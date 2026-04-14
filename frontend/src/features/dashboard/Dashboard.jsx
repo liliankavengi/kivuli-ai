@@ -7,6 +7,7 @@ import {
 import useTrustScore from "../../hooks/useTrustScore";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
+import ExportMenu from "../../components/ExportMenu";
 import SummaryCards from "./SummaryCards";
 import TransactionChart from "./TransactionChart";
 import TrustBreakdown from "./TrustBreakdown";
@@ -20,6 +21,16 @@ export default function Dashboard() {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef(null);
+
+  // Mock data for exports - in production, this would come from API
+  const mockSummary = {
+    totalIncome: scoreData?.totalIncome || 296000,
+    totalExpenses: scoreData?.totalExpenses || 200000,
+    netBalance: scoreData?.netBalance || 96000,
+    transactionCount: scoreData?.transactionCount || 148,
+  };
+
+  const mockTransactions = scoreData?.transactions || [];
 
   const handleCheckScore = () => {
     if (inputBizId.trim()) setBusinessId(inputBizId);
@@ -46,12 +57,15 @@ export default function Dashboard() {
   return (
     <div className="space-y-6 animate-in">
       {/* Header */}
-      <div className="mb-4">
-        <h2 className={`text-3xl font-bold ${darkMode ? "text-brand-300" : "text-brand-900"}`}>Dashboard</h2>
-        <p className={darkMode ? "text-slate-400" : "text-slate-500"}>
-          Welcome back,{" "}
-          <span className={`font-semibold ${darkMode ? "text-white" : "text-slate-700"}`}>{user?.email}</span>
-        </p>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className={`text-3xl font-bold ${darkMode ? "text-brand-300" : "text-brand-900"}`}>Dashboard</h2>
+          <p className={darkMode ? "text-slate-400" : "text-slate-500"}>
+            Welcome back,{" "}
+            <span className={`font-semibold ${darkMode ? "text-white" : "text-slate-700"}`}>{user?.email}</span>
+          </p>
+        </div>
+        <ExportMenu summary={mockSummary} transactions={mockTransactions} trustScore={scoreData || {}} />
       </div>
 
       {/* Summary Cards */}
