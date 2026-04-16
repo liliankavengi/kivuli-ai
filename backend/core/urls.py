@@ -1,11 +1,31 @@
 from django.contrib import admin
 from django.urls import path
-from api.views import get_ai_score, manage_stock, update_stock, sell_stock
+from api.views import (
+    get_ai_score, manage_stock, update_stock, sell_stock,
+    user_register, user_login, user_logout, user_settings,
+    mpesa_stk_push, mpesa_callback
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/score/<int:business_id>/', get_ai_score),
-    path('api/stock/<int:business_id>/', manage_stock),
-    path('api/stock/<int:business_id>/<int:stock_id>/', update_stock),
-    path('api/stock/<int:business_id>/<int:stock_id>/sell/', sell_stock),
+
+    # Authentication endpoints
+    path('api/auth/register/', user_register, name='user_register'),
+    path('api/auth/login/', user_login, name='user_login'),
+    path('api/auth/logout/', user_logout, name='user_logout'),
+
+    # Settings endpoint
+    path('api/auth/settings/', user_settings, name='user_settings'),
+
+    # Business endpoints
+    path('api/score/', get_ai_score, name='get_ai_score'),
+
+    # Stock management endpoints
+    path('api/stock/', manage_stock, name='manage_stock'),
+    path('api/stock/<int:stock_id>/', update_stock, name='update_stock'),
+    path('api/stock/<int:stock_id>/sell/', sell_stock, name='sell_stock'),
+
+    # M-Pesa endpoints
+    path('api/mpesa/stkpush/', mpesa_stk_push, name='mpesa_stk_push'),
+    path('api/mpesa/callback/', mpesa_callback, name='mpesa_callback'),
 ]

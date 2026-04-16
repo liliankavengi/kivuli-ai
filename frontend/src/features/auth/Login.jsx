@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Shield, Zap, Mail, Lock, LogIn, AlertCircle, Sun, Moon, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [localError, setLocalError] = useState("");
@@ -15,8 +15,8 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      setLocalError("Please enter your email address");
+    if (!username.trim()) {
+      setLocalError("Please enter your username");
       return;
     }
     if (!password.trim()) {
@@ -27,12 +27,18 @@ export default function Login() {
     setIsLoading(true);
     setLocalError("");
 
-    // Simulate auth delay
-    setTimeout(() => {
-      login(email, password);
+    try {
+      const result = await login(username, password);
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setLocalError(result.error);
+      }
+    } catch (error) {
+      setLocalError("An unexpected error occurred");
+    } finally {
       setIsLoading(false);
-      navigate("/dashboard");
-    }, 800);
+    }
   };
 
   return (
@@ -88,16 +94,16 @@ export default function Login() {
               <p className={`text-sm ${darkMode ? "text-slate-400" : "text-slate-500"}`}>Sign in to access your dashboard</p>
             </div>
 
-            {/* Email */}
+            {/* Username */}
             <div className="mb-4">
-              <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-slate-700"}`}>Email Address</label>
+              <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-slate-700"}`}>Username</label>
               <div className="relative">
                 <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${darkMode ? "text-slate-500" : "text-slate-400"}`} />
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@business.com"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your username"
                   className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl placeholder-slate-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all ${darkMode ? "bg-dark-surface border-dark-border text-white" : "bg-surface border-slate-200 text-slate-800 focus:bg-white"}`}
                   onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
                 />

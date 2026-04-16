@@ -13,9 +13,9 @@ import TransactionChart from "./TransactionChart";
 import TrustBreakdown from "./TrustBreakdown";
 
 export default function Dashboard() {
-  const { user, setBusinessId } = useAuth();
+  const { user } = useAuth();
   const { darkMode } = useTheme();
-  const { scoreData, loading, error } = useTrustScore(user?.businessId);
+  const { scoreData, loading, error } = useTrustScore();
 
   const [inputBizId, setInputBizId] = useState("");
   const [uploadedImages, setUploadedImages] = useState([]);

@@ -147,7 +147,7 @@ export default function InventoryPage() {
   const fetchStocks = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/api/stock/${user.businessId}/`);
+      const response = await api.get('/stock/');
       setStocks(response.data.length > 0 ? response.data : MOCK_STOCKS);
     } catch (error) {
       console.error("Failed to fetch stocks:", error);
@@ -167,10 +167,10 @@ export default function InventoryPage() {
     try {
       if (editingId) {
         // Update existing stock
-        await api.put(`/api/stock/${user.businessId}/${editingId}/`, formData);
+        await api.put(`/stock/${editingId}/`, formData);
       } else {
         // Add new stock
-        await api.post(`/api/stock/${user.businessId}/`, formData);
+        await api.post('/stock/', formData);
       }
       
       setFormData({
@@ -196,7 +196,7 @@ export default function InventoryPage() {
     
     if (quantityToSell && !isNaN(quantityToSell)) {
       try {
-        await api.post(`/api/stock/${user.businessId}/${stockId}/sell/`, {
+        await api.post(`/stock/${stockId}/sell/`, {
           quantity_sold: parseInt(quantityToSell),
         });
         fetchStocks();
@@ -210,7 +210,7 @@ export default function InventoryPage() {
   const handleDeleteStock = async (stockId) => {
     if (confirm("Are you sure you want to delete this stock item?")) {
       try {
-        await api.delete(`/api/stock/${user.businessId}/${stockId}/`);
+        await api.delete(`/stock/${stockId}/`);
         fetchStocks();
       } catch (error) {
         console.error("Failed to delete stock:", error);

@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'api',
 ]
@@ -74,3 +75,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# M-Pesa Daraja API Configuration
+MPESA_CONSUMER_KEY = 'your_consumer_key_here'  # Replace with actual key
+MPESA_CONSUMER_SECRET = 'your_consumer_secret_here'  # Replace with actual secret
+MPESA_SHORTCODE = '174379'  # Sandbox shortcode
+MPESA_PASSKEY = 'your_passkey_here'  # Replace with actual passkey
+MPESA_CALLBACK_URL = 'https://yourdomain.com/api/mpesa/callback/'  # Replace with actual callback URL

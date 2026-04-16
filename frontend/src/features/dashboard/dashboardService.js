@@ -1,9 +1,8 @@
 import API from "../../services/api";
 
-export const getTrustScore = async (businessId) => {
+export const getTrustScore = async () => {
   try {
-    let numericId = 1;
-    const response = await API.get(`/score/${numericId}/`);
+    const response = await API.get('/score/');
     return {
       score: response.data.score || Math.floor(Math.random() * 40 + 50),
       advice: response.data.ai_insight || "No insight provided.",

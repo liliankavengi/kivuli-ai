@@ -6,6 +6,7 @@ import { Shield, Zap, Mail, Lock, User, UserPlus, AlertCircle, Sun, Moon, Eye, E
 
 export default function Register() {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,20 +29,38 @@ export default function Register() {
 
   const strength = passwordStrength(password);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     setLocalError("");
 
     if (!name.trim()) { setLocalError("Please enter your full name"); return; }
+    if (!username.trim()) { setLocalError("Please enter a username"); return; }
     if (!email.trim() || !email.includes("@")) { setLocalError("Please enter a valid email address"); return; }
     if (password.length < 6) { setLocalError("Password must be at least 6 characters"); return; }
     if (password !== confirmPassword) { setLocalError("Passwords do not match"); return; }
 
     setIsLoading(true);
-    setTimeout(() => {
-      register(name, email, password);
+
+    try {
+      const result = await register({
+        username,
+        email,
+        password,
+        name,
+        business_name: name, // Use name as business name for now
+        phone_number: "", // Can be added later
+        industry: "" // Can be added later
+      });
+
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setLocalError(result.error);
+      }
+    } catch (error) {
+      setLocalError("An unexpected error occurred");
+    } finally {
       setIsLoading(false);
-      navigate("/verify-email");
-    }, 800);
+    }
   };
 
   return (
@@ -101,6 +120,22 @@ export default function Register() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Lilian Kavengi"
+                  className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl placeholder-slate-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all ${darkMode ? "bg-dark-surface border-dark-border text-white" : "bg-surface border-slate-200 text-slate-800 focus:bg-white"}`}
+                  onKeyDown={(e) => e.key === "Enter" && handleRegister()}
+                />
+              </div>
+            </div>
+
+            {/* Username */}
+            <div className="mb-4">
+              <label className={`block text-sm font-medium mb-1.5 ${darkMode ? "text-slate-300" : "text-slate-700"}`}>Username</label>
+              <div className="relative">
+                <User className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${darkMode ? "text-slate-500" : "text-slate-400"}`} />
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="lilian_kavengi"
                   className={`w-full pl-12 pr-4 py-3.5 border-2 rounded-xl placeholder-slate-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all ${darkMode ? "bg-dark-surface border-dark-border text-white" : "bg-surface border-slate-200 text-slate-800 focus:bg-white"}`}
                   onKeyDown={(e) => e.key === "Enter" && handleRegister()}
                 />

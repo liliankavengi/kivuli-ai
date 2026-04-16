@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
 import { getTrustScore } from "../features/dashboard/dashboardService";
 
-export default function useTrustScore(businessId) {
+export default function useTrustScore() {
   const [scoreData, setScoreData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!businessId) return;
-
     setLoading(true);
     setError(null);
 
     // Artificial delay to show loading state animations
     setTimeout(() => {
-      getTrustScore(businessId)
+      getTrustScore()
         .then((data) => {
           setScoreData(data);
           setLoading(false);
@@ -25,7 +23,7 @@ export default function useTrustScore(businessId) {
         });
     }, 1500);
 
-  }, [businessId]);
+  }, []);
 
   return { scoreData, loading, error };
 }
