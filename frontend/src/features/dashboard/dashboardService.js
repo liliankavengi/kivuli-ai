@@ -3,17 +3,17 @@ import API from "../../services/api";
 export const getTrustScore = async () => {
   try {
     const response = await API.get('/score/');
+    const data = response.data.data;
     return {
-      score: response.data.score || Math.floor(Math.random() * 40 + 50),
-      advice: response.data.ai_insight || "No insight provided.",
-      // These fields come from TrustReport in scoring_agent.py — expand Django view to return them
-      strengths: response.data.strengths || [],
-      risks: response.data.risks || [],
-      sdg_8_advice: response.data.sdg_8_advice || "",
-      totalIncome: response.data.totalIncome || 0,
-      totalExpenses: response.data.totalExpenses || 0,
-      netBalance: response.data.netBalance || 0,
-      transactionCount: response.data.transactionCount || 0,
+      score: data.score || Math.floor(Math.random() * 40 + 50),
+      advice: data.ai_insight || "No insight provided.",
+      strengths: data.strengths || [],
+      risks: data.risks || [],
+      sdg_8_advice: data.sdg_8_advice || "",
+      totalIncome: data.totalIncome || 0,
+      totalExpenses: data.totalExpenses || 0,
+      netBalance: data.netBalance || 0,
+      transactionCount: data.transactionCount || 0,
     };
   } catch (error) {
     console.error("Backend offline — using mock data.", error);

@@ -149,7 +149,8 @@ export default function InventoryPage() {
     try {
       setLoading(true);
       const response = await api.get('/stock/');
-      setStocks(response.data.length > 0 ? response.data : MOCK_STOCKS);
+      const data = response.data.data;
+      setStocks(data.length > 0 ? data : MOCK_STOCKS);
     } catch (error) {
       console.error("Failed to fetch stocks:", error);
       // Fallback to mock data on error
@@ -167,10 +168,8 @@ export default function InventoryPage() {
 
     try {
       if (editingId) {
-        // Update existing stock
         await api.put(`/stock/${editingId}/`, formData);
       } else {
-        // Add new stock
         await api.post('/stock/', formData);
       }
       

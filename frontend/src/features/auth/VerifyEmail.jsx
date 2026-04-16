@@ -58,25 +58,24 @@ export default function VerifyEmail() {
     inputRefs.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus();
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const entered = code.join("");
     if (entered.length < CODE_LENGTH) {
       setError("Please enter the complete 6-digit code");
       return;
     }
 
-    // Demo: accept "123456" as the valid OTP
-    // In production, call POST /api/auth/verify-email/ with the code
-    if (entered !== "123456") {
-      setError("Incorrect code. Please try again.");
-      return;
-    }
-
     setIsVerifying(true);
-    setTimeout(() => {
-      verifyEmail();
+    setError("");
+    
+    const result = await verifyEmail(entered);
+    
+    if (result.success) {
       navigate("/dashboard");
-    }, 800);
+    } else {
+      setError(result.error);
+      setIsVerifying(false);
+    }
   };
 
   const handleResend = () => {
