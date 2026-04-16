@@ -6,6 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import DashboardLayout from "../layouts/DashboardLayout";
 import api from "../services/api";
 
 export default function InventoryPage() {
@@ -136,13 +137,13 @@ export default function InventoryPage() {
 
   // Fetch stocks on mount
   useEffect(() => {
-    if (user?.businessId) {
+    if (user?.business?.id) {
       fetchStocks();
     } else {
       // Use mock data if no business ID
       setStocks(MOCK_STOCKS);
     }
-  }, [user?.businessId]);
+  }, [user?.business?.id]);
 
   const fetchStocks = async () => {
     try {
@@ -272,6 +273,7 @@ export default function InventoryPage() {
   }, 0);
 
   return (
+    <DashboardLayout>
     <div className="space-y-6 animate-in pb-10">
       {/* Header Section */}
       <div className={`rounded-3xl p-8 overflow-hidden relative ${
@@ -662,5 +664,6 @@ export default function InventoryPage() {
         </div>
       )}
     </div>
+    </DashboardLayout>
   );
 }

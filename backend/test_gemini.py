@@ -21,7 +21,7 @@ try:
     print("\n--- Response ---")
     print(response.text)
     print("----------------\n")
-    print("✅ Success! Your 2026 SDK connection is solid.")
+    print("!! Success!! Your 2026 SDK connection is solid.")
 
 except Exception as e:
-    print(f"❌ Connection Failed: {e}")
+    print(f"!! Connection Failed: {e}")

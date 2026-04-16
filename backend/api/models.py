@@ -2,33 +2,46 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('owner', 'Business Owner'),
+        ('staff', 'Staff Member'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15, blank=True)
     business_name = models.CharField(max_length=255, blank=True)
     industry = models.CharField(max_length=100, blank=True)
+    is_email_verified = models.BooleanField(default=False)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='owner')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.business_name}"
+        return f"{self.user.username} - {self.role}"
 
 class BusinessProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     industry = models.CharField(max_length=100)
     owner_phone = models.CharField(max_length=15) # M-Pesa number
+    registration_number = models.CharField(max_length=100, blank=True)
+    tax_pin = models.CharField(max_length=100, blank=True)
+    physical_address = models.TextField(blank=True)
+    website = models.URLField(blank=True)
     trust_score = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
-    name = models.CharField(max_length=255)
-    industry = models.CharField(max_length=100)
-    owner_phone = models.CharField(max_length=15) # M-Pesa number
-    trust_score = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+class MpesaCheckout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    checkout_request_id = models.CharField(max_length=100, unique=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    phone_number = models.CharField(max_length=15)
+    is_completed = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.user.username} - {self.checkout_request_id}"
 
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

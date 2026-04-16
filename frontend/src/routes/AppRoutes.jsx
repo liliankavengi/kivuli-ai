@@ -7,6 +7,7 @@ import DashboardPage from "../pages/DashboardPage";
 import LedgerPage from "../pages/LedgerPage";
 import ForecastPage from "../pages/ForecastPage";
 import InventoryPage from "../pages/InventoryPage";
+import SettingsPage from "../pages/SettingsPage";
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -52,6 +53,7 @@ export default function AppRoutes() {
         <Route path="/ledger" element={<ProtectedRoute><LedgerPage /></ProtectedRoute>} />
         <Route path="/forecast" element={<ProtectedRoute><ForecastPage /></ProtectedRoute>} />
         <Route path="/inventory" element={<ProtectedRoute><InventoryPage /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

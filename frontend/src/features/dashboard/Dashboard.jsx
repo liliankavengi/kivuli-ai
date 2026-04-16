@@ -69,7 +69,7 @@ export default function Dashboard() {
       </div>
 
       {/* Summary Cards */}
-      <SummaryCards />
+      <SummaryCards summary={mockSummary} />
 
       {/* Business ID Input */}
       <div className="bg-brand-900 rounded-3xl p-[3px] shadow-2xl shadow-brand-900/20">

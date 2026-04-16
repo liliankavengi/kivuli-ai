@@ -10,6 +10,10 @@ export const getTrustScore = async () => {
       strengths: response.data.strengths || [],
       risks: response.data.risks || [],
       sdg_8_advice: response.data.sdg_8_advice || "",
+      totalIncome: response.data.totalIncome || 0,
+      totalExpenses: response.data.totalExpenses || 0,
+      netBalance: response.data.netBalance || 0,
+      transactionCount: response.data.transactionCount || 0,
     };
   } catch (error) {
     console.error("Backend offline — using mock data.", error);

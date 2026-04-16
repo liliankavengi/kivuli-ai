@@ -14,7 +14,7 @@ export default function Sidebar() {
     { name: "Ledger",     icon: FileText,   path: "/ledger" },
     { name: "Forecast",   icon: TrendingUp, path: "/forecast" },
     { name: "Inventory",  icon: Package,    path: "/inventory" },
-    { name: "Settings",   icon: Settings,   path: "#" },
+    { name: "Settings",   icon: Settings,   path: "/settings" },
   ];
 
   const handleLogout = () => {

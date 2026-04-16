@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.urls import path
 from api.views import (
     get_ai_score, manage_stock, update_stock, sell_stock,
-    user_register, user_login, user_logout, user_settings,
-    mpesa_stk_push, mpesa_callback
+    user_register, user_login, user_logout, user_settings, user_password_reset,
+    verify_email, mpesa_stk_push, mpesa_callback
 )
 
 urlpatterns = [
@@ -13,6 +13,8 @@ urlpatterns = [
     path('api/auth/register/', user_register, name='user_register'),
     path('api/auth/login/', user_login, name='user_login'),
     path('api/auth/logout/', user_logout, name='user_logout'),
+    path('api/auth/password-reset/', user_password_reset, name='user_password_reset'),
+    path('api/auth/verify-email/', verify_email, name='verify_email'),
 
     # Settings endpoint
     path('api/auth/settings/', user_settings, name='user_settings'),
